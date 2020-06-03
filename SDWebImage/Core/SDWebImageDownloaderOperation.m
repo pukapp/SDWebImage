@@ -453,6 +453,11 @@ didReceiveResponse:(NSURLResponse *)response
     } else {
         if ([self callbacksForKey:kCompletedCallbackKey].count > 0) {
             NSData *imageData = [self.imageData copy];
+            if ([self.request.URL.absoluteString hasSuffix:@"tgs"]) {
+                [self callCompletionBlocksWithImage:nil imageData:imageData error:nil finished:YES];
+                [self done];
+                return;
+            }
             self.imageData = nil;
             // data decryptor
             if (imageData && self.decryptor) {
